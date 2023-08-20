@@ -22,12 +22,15 @@ const apiLimiter = rateLimit({
 	message: 'Too many requests, please try again after 15 minutes'
 })
 
-app.use("/counter/", apiLimiter)
+app.use('/counter', apiLimiter)
 
-app.get('/counter/:username', (req, res) => {
-	res.header('Content-Type', 'image/svg+xml')
+app.get('/counter', (req, res) => {
+	res.header({
+		'Cache-Control': 'max-age=0, no-cache, no-store, must-revalidate',
+		'Content-Type': 'image/svg+xml'
+	})
 
-	const username = req.params.username
+	const userAgent = req.headers['user-agent']
 
 	const defaultParams = {
 		label: 'profile views',
@@ -43,10 +46,12 @@ app.get('/counter/:username', (req, res) => {
 	if (req.query.gradient) params.gradient = req.query.gradient.split(',')
 	if (params.icon) params.icon = 'data:image/svg+xml;base64,' + decodeURIComponent(params.icon)
 
-	if (!VALID_USERNAME_REGEX.test(username))  { res.send(gradientBadge({...params, status: 'Not found'})) }
+	if (!userAgent.startsWith('github-camo')) { res.send(gradientBadge({ ...params, status: 'Use in GitHub only' })) }
+	else if (!req.query.username)  { res.send(gradientBadge({...params, status: 'No username mentioned'})) }
+	else if (!VALID_USERNAME_REGEX.test(req.query.username))  { res.send(gradientBadge({...params, status: 'Invalid username'})) }
 	else if (params.status) { res.send(gradientBadge({...params, status: !isNaN(parseFloat(params.status)) ? parseFloat(params.status).toLocaleString('en-US') : params.status})) }
 	else {
-		dbQueries.incrementUserView(username).then(count => { res.send(gradientBadge({...params, status: count.toLocaleString('en-US')}))})
+		dbQueries.incrementUserView(req.query.username).then(count => { res.send(gradientBadge({...params, status: count.toLocaleString('en-US')}))})
 			.catch(err => { console.error('Error:', err); res.send(gradientBadge({...params, status: 'Error'})) })
 	}
 })

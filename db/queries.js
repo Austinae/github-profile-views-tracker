@@ -26,10 +26,10 @@ const incrementUserView = async (username) => {
 		return res.rows[0].count - 1
 
 	} catch (e) {
-			await client.query('ROLLBACK')
-			throw e
+		await client.query('ROLLBACK')
+		throw e
 	} finally {
-			client.release()
+		client.release()
 	}
 }
 
