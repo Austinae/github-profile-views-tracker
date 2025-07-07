@@ -2,11 +2,7 @@
 
 Boost Your GitHub Cred with a Live View Counter.
 
-![Profile Views](https://www.williamguerrand.com/api/counter?username=Austinae&status=1234567890&scale=3&gradient=red,green&style=flat)
-
-## Be aware
-Don't spam my server. Everybody knows that any counters could be faked.
-> A billion fake profile views doesn't make you a very popular person, it makes you a person with a billion number in the counter.
+![Profile Views](https://www.williamguerrand.com/api/counter?username=Austinae&status=1234567890&scale=2&gradient=red,green&style=flat)
 
 ## Setup
 
@@ -16,7 +12,7 @@ Add to your profile's README.md
 
 Replace YourGitHubUsername with your actual username.
 
-<em>[More info on seting up custom Github profile](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)</em>
+<em>[More info on setting up custom Github profile](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)</em>
 
 
 ## Customization
